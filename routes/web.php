@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ChirpController;
+use GuzzleHttp\Middleware;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,4 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::resource('chirps', ChirpController::class)
+    ->only('index', 'store', 'edit', 'update', 'destroy')
+    ->Middleware(['auth', 'verified']);
+
+require __DIR__ . '/auth.php';
