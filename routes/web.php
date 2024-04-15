@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChirpController;
+use App\Models\Chirp;
 use GuzzleHttp\Middleware;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', ['chirps' => Chirp::with('user')->latest()->get()]);
 });
 
 Route::get('/dashboard', function () {
